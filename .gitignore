@@ -1,0 +1,13 @@
+# Executables
+*.exe
+*.out
+
+# Object files
+*.o
+*.obj
+
+# VS Code settings
+.vscode/
+
+# Generated files
+fragmentation.csv
