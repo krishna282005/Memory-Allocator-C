@@ -5,14 +5,11 @@
 float frag_index[100];
 int count = 0;
 
-void physical_heap_dump();
-void free_heap_dump();
 void fragment_analyzer();
 void test_no_merge(void);
 void test_left_merge(void);
 void test_right_merge(void);
 void test_both_merge(void);
-void check_alignment(void);
 void export_fragmentation_csv(void);
 
 
