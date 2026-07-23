@@ -21,6 +21,10 @@ Memory_Allocator_Project/
 ├── heap.c
 ├── heap.h
 ├── main.c
+├── debug.c
+├── metrics.c
+├── benchmark.c
+├── benchmark.h
 ├── README.md
 └── .gitignore
 ```
