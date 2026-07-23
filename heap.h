@@ -16,6 +16,12 @@ void* kmalloc(int sz);
 void kfree(void *ptr);
 void physical_heap_dump();
 void free_heap_dump();
+void fragment_analyzer();
+void test_no_merge(void);
+void test_left_merge(void);
+void test_right_merge(void);
+void test_both_merge(void);
+void export_fragmentation_csv(void);
 uint8_t *heap_start (void);
 size_t heap_size(void);
 
