@@ -32,7 +32,7 @@ Memory_Allocator_Project/
 ## Build
 
 ```bash
-gcc main.c heap.c -o allocator
+gcc -O2 main.c heap.c debug.c metrics.c test.c benchmark.c -o allocator.exe
 ```
 
 ## Run
