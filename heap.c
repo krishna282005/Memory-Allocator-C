@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "heap.h"
 
-static uint8_t fakeheap[1024];
+static uint8_t fakeheap[HEAP_SIZE];
 static uint8_t minimum_space = 16;
 BlockHeader *free_list_head = NULL;
 
@@ -13,7 +13,7 @@ uint8_t *heap_start (void)
 
 size_t heap_size(void)
 {
-    return sizeof(fakeheap);
+    return HEAP_SIZE;
 }
 
 ///////////////////// Initialization ////////////////////

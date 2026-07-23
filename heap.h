@@ -2,6 +2,7 @@
 #define HEAP_H
 
 #include <stdint.h>
+#define HEAP_SIZE (1024 * 1024)
 
 typedef struct
 {
