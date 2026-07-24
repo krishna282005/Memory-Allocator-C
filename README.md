@@ -98,7 +98,7 @@ Header
 ------
 Size
 Free/Allocated Flag
-Next Free Block Pointer
+--> Next header pointer stored in payload (temp)
 ```
 
 ---
