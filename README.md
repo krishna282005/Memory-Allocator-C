@@ -1,67 +1,166 @@
-# Custom Heap Allocator & Benchmarking Framework in C
+# Custom Heap Allocator in C
 
-A custom dynamic memory allocator implemented from scratch in C to understand how `malloc()` and `free()` work internally. The project includes a complete benchmarking and analysis framework for evaluating allocator behavior under different memory workloads.
+A custom dynamic memory allocator implemented from scratch in C to understand the internal working of dynamic memory management. The project implements a First-Fit allocator with block splitting, coalescing, alignment, heap inspection utilities, and a benchmarking framework for evaluating allocator behavior under different memory allocation workloads.
 
 ---
 
-## Features
+## Overview
 
-### Memory Allocator
+```
+                   +----------------------+
+                   |     User Program     |
+                   +----------+-----------+
+                              |
+                     kmalloc() / kfree()
+                              |
+                              v
+                  +-------------------------+
+                  |   Custom Heap Manager   |
+                  +-------------------------+
+                  |  First-Fit Allocation   |
+                  |  Block Splitting        |
+                  |  Block Coalescing       |
+                  |  Free List Management   |
+                  |  8-byte Alignment       |
+                  +------------+------------+
+                               |
+                               v
+                      Fixed Size Heap Buffer
+```
 
-- Custom `kmalloc()` and `kfree()` implementation
+---
+
+# Features
+
+## Memory Allocator
+
+- Custom `kmalloc()` implementation
+- Custom `kfree()` implementation
 - First-Fit allocation strategy
+- Fixed-size heap management
 - 8-byte memory alignment
 - Block splitting
-- Adjacent block coalescing
-- Fixed-size heap management
-
-### Debugging & Visualization
-
-- Physical heap visualization
-- Free list visualization
-- Heap state inspection
-- Allocation failure reporting
-
-### Performance Analysis
-
-- External fragmentation analysis
-- Internal fragmentation analysis
-- Peak heap utilization tracking
-- Header overhead calculation
-- Allocation failure statistics
-- Largest free block tracking
-- Total free memory tracking
-- Fragmentation data export to CSV
-
-### Benchmarking
-
-- Fixed-size allocation workload
-- Random allocation workload
-- Growing/Shrinking allocation workload
-- Stress-to-failure workload
-- Latency benchmarking
-- Workload performance comparison
+- Adjacent free block coalescing
+- Free-list based allocator
 
 ---
 
-## Project Structure
+## Heap Analysis
 
-```text
+- Physical heap visualization
+- Free-list visualization
+- Total free memory calculation
+- Largest free block calculation
+- External fragmentation analysis
+- Internal fragmentation analysis
+- Heap utilization statistics
+- Header overhead analysis
+
+---
+
+## Benchmarking
+
+The project includes a benchmarking module to evaluate allocator behavior under multiple workload patterns.
+
+| Workload | Purpose |
+|----------|----------|
+| Fixed Size Churn | Repeated allocation/free of equal-sized blocks |
+| Random Churn | Random-sized allocations and deallocations |
+| Growing & Shrinking | Progressive heap fill followed by release |
+| Stress to Failure | Allocation until heap exhaustion |
+
+Each workload records:
+
+- Allocation attempts
+- Successful allocations
+- Allocation failures
+- Peak heap utilization
+- Fragmentation index
+- Internal fragmentation
+- Header overhead
+- Largest free block
+- Total free memory
+- Latency measurements
+- CSV export for fragmentation history
+
+---
+
+# Allocator Design
+
+```
+               Heap Layout
+
++-------------------------------------------------------------+
+| Header | Payload | Header | Payload | Header | Payload | ... |
++-------------------------------------------------------------+
+
+Header
+------
+Size
+Free/Allocated Flag
+Next Free Block Pointer
+```
+
+---
+
+# Allocation Flow
+
+```
+kmalloc(size)
+      |
+      v
+Search Free List (First-Fit)
+      |
+      +-------------------------+
+      |                         |
+ Found Suitable Block?        No
+      |                         |
+     Yes                        |
+      |                         |
+Split Block (if required)   Allocation Failed
+      |
+Mark Allocated
+      |
+Return Payload Pointer
+```
+
+---
+
+# Free Operation
+
+```
+kfree(ptr)
+     |
+     v
+Mark Block Free
+     |
+Insert Into Free List
+     |
+Merge Adjacent Blocks
+     |
+Update Heap Statistics
+```
+
+---
+
+# Project Structure
+
+```
 Memory_Allocator_Project/
-│
-├── heap.c              # Core allocator implementation
+
+├── heap.c
 ├── heap.h
 │
-├── workload.c          # Workload generator
+├── workload.c
 ├── workload.h
 │
-├── benchmark.c         # Performance benchmarking
+├── benchmark.c
 ├── benchmark.h
 │
-├── metrics.c           # Fragmentation & utilization metrics
-├── debug.c             # Heap visualization and debugging
+├── metrics.c
+├── debug.c
 │
-├── main.c              # Driver program
+├── main.c
 │
 ├── README.md
 └── .gitignore
@@ -69,38 +168,7 @@ Memory_Allocator_Project/
 
 ---
 
-## Workloads
-
-The allocator is evaluated using multiple workload patterns that simulate different allocation behaviors.
-
-| Workload | Description |
-|----------|-------------|
-| Fixed Size Churn | Repeated allocation and deallocation of equal-sized blocks |
-| Random Churn | Random-sized allocations and frees |
-| Growing & Shrinking | Heap gradually fills before being released |
-| Stress to Failure | Allocates until heap exhaustion to evaluate failure behavior |
-
----
-
-## Metrics Collected
-
-For every workload, the framework records:
-
-- Allocation attempts
-- Successful allocations
-- Allocation failures
-- Peak heap utilization
-- Internal fragmentation
-- External fragmentation index
-- Largest free block
-- Total free memory
-- Header overhead
-- Latency benchmark
-- Fragmentation history (CSV)
-
----
-
-## Build
+# Build
 
 ```bash
 gcc -O2 main.c heap.c debug.c metrics.c workload.c benchmark.c -o allocator.exe
@@ -108,7 +176,7 @@ gcc -O2 main.c heap.c debug.c metrics.c workload.c benchmark.c -o allocator.exe
 
 ---
 
-## Run
+# Run
 
 ```bash
 ./allocator
@@ -116,46 +184,76 @@ gcc -O2 main.c heap.c debug.c metrics.c workload.c benchmark.c -o allocator.exe
 
 ---
 
-## Sample Output
+# Example Output
 
-```text
+```
 ========== Running workload: random_churn ==========
 
-Peak Utilization      : 43.6%
-Fragmentation Index   : 0.312
+Peak Heap Utilization : 43.6%
 Largest Free Block    : 1200 bytes
+Fragmentation Index   : 0.312
 Allocation Failures   : None
 
-========== Latency Benchmark ==========
+Latency Benchmark
+
 Average Time per Operation : 0.0086 us
+
+Fragmentation history exported to:
+
+fragmentation.csv
 ```
 
 ---
 
-## Learning Objectives
+# Learning Outcomes
 
-This project was built to gain a deeper understanding of:
+This project was built to gain practical understanding of:
 
 - Dynamic memory allocation
-- Heap management
+- Heap organization
 - Pointer arithmetic
 - Memory alignment
 - Free-list management
-- Block splitting and coalescing
+- Block splitting
+- Block coalescing
 - Heap fragmentation
-- Memory allocator benchmarking
-- Performance measurement
-- Modular C project architecture
+- Performance benchmarking
+- Modular software design in C
 
 ---
 
-## Future Improvements
+# Current Implementation
 
-- Best-Fit allocation strategy
-- Worst-Fit allocation strategy
-- Next-Fit allocation strategy
+| Component | Status |
+|-----------|--------|
+| First-Fit Allocator | Complete |
+| Heap Initialization | Complete |
+| Block Splitting | Complete |
+| Block Coalescing | Complete |
+| Heap Visualization | Complete |
+| Free List Visualization | Complete |
+| Fragmentation Metrics | Complete |
+| Benchmark Workloads | Complete |
+| Latency Benchmarking | Complete |
+| CSV Export | Complete |
+
+---
+
+# Future Work
+
+The current implementation focuses on a First-Fit allocator. Possible future extensions include:
+
+- Best-Fit allocation
+- Worst-Fit allocation
+- Next-Fit allocation
 - FreeRTOS `heap_4` integration
-- Comparative allocator benchmarking
+- Comparative allocator evaluation
 - Heap fragmentation visualization
-- Performance graphs
-- Allocation heat maps
+- Benchmark result plotting
+- Allocation heat-map generation
+
+---
+
+# License
+
+This project is intended for educational purposes to explore the implementation and evaluation of custom memory allocators in C.
