@@ -101,7 +101,7 @@ void kfree(void *ptr)
 
     if (present->is_free)
     {
-        return NULL;
+        return;
     }
 
     while (current != NULL)
