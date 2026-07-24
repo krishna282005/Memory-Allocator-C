@@ -33,6 +33,10 @@ void heap_init()
 
 void* kmalloc(int sz)
 {   
+    if (sz<=0)
+    {
+        return NULL;
+    }
     BlockHeader *prev = NULL;
     BlockHeader *current = free_list_head;
     BlockHeader *leftover_address = NULL;
@@ -94,6 +98,12 @@ void kfree(void *ptr)
     BlockHeader *present_header = (BlockHeader *)(present - 1);
     BlockHeader *prev = NULL;
     BlockHeader *current = (BlockHeader *)free_list_head;
+
+    if (present->is_free)
+    {
+        return NULL;
+    }
+
     while (current != NULL)
     {
         if (present_header < current)

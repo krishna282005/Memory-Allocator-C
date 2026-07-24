@@ -10,4 +10,4 @@
 .vscode/
 
 # Generated files
-.csv
+*.csv

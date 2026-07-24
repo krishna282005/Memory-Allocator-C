@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "heap.h"
-#include "benchmark.h"
 #include "workload.h"
 
 
 
 int main()
 {
-    heap_init();
     heap_init();
     Workload w1 = gen_fixed_size_churn(10, 40);        // 10 alloc/free cycles, 40 bytes each
     run_workload(&w1, "fixed_size_churn");
