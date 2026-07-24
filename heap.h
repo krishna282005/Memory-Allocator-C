@@ -2,7 +2,7 @@
 #define HEAP_H
 
 #include <stdint.h>
-#define HEAP_SIZE (1024 * 1024)
+#define HEAP_SIZE (2048)
 
 typedef struct
 {
@@ -22,7 +22,7 @@ void test_no_merge(void);
 void test_left_merge(void);
 void test_right_merge(void);
 void test_both_merge(void);
-void export_fragmentation_csv(void);
+void export_fragmentation_csv(const char *filename);
 uint8_t *heap_start (void);
 size_t heap_size(void);
 

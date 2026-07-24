@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "heap.h"
+#include "metrics.h"
 
 float frag_index[100];
 int count = 0;
+
+void reset_fragmentation_log(void)
+{
+    count = 0;
+}
 
 
 void fragment_analyzer()
@@ -47,9 +53,9 @@ void fragment_analyzer()
     count=count+1;
 }
 
-void export_fragmentation_csv(void)
+void export_fragmentation_csv(const char *filename)
 {
-    FILE *fp = fopen("fragmentation.csv", "w");
+    FILE *fp = fopen(filename, "w");
 
     if (fp == NULL)
     {
