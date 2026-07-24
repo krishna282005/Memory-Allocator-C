@@ -171,7 +171,7 @@ Memory_Allocator_Project/
 # Build
 
 ```bash
-gcc -O2 main.c heap.c debug.c metrics.c workload.c benchmark.c -o allocator.exe
+gcc -O2 main.c heap.c debug.c metrics.c workload.c test.c -o allocator.exe
 ```
 
 ---
