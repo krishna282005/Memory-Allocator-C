@@ -25,6 +25,8 @@ Memory_Allocator_Project/
 ├── metrics.c
 ├── benchmark.c
 ├── benchmark.h
+├── workload.c
+├── workload.h
 ├── README.md
 └── .gitignore
 ```
