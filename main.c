@@ -7,6 +7,7 @@
 
 int main()
 {
+    /*
     heap_init();
     Workload w1 = gen_fixed_size_churn(10, 40);        // 10 alloc/free cycles, 40 bytes each
     run_workload(&w1, "fixed_size_churn");
@@ -26,14 +27,16 @@ int main()
     benchmark_latency(&w1, "fixed_size_churn_latency", 500000);
     benchmark_latency(&w2, "random_churn_latency", 500000);
     benchmark_latency(&w3, "growing_shrinking_latency", 500000);
-
-    // int *mem1 = (int*)kmalloc(100);
+    */
+    heap_init();
+    int *mem1 = (int*)kmalloc(100);
     // int *mem2 = (int*)kmalloc(27);
     // int *mem3 = (int*)kmalloc(522);
-    // kfree(mem2);
+    kfree(mem1);
+    kfree(mem1);
 
-    // free_heap_dump();
-    // physical_heap_dump();
+    free_heap_dump();
+    physical_heap_dump();
     // fragment_analyzer();
     // export_fragmentation_csv();
     
