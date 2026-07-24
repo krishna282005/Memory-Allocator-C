@@ -99,7 +99,7 @@ void kfree(void *ptr)
     BlockHeader *prev = NULL;
     BlockHeader *current = (BlockHeader *)free_list_head;
 
-    if (present->is_free)
+    if (present_header->is_free)
     {
         return;
     }
